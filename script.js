@@ -23,43 +23,52 @@ function getHumanChoice() {
     }
 }
 
-function playGame() {
-    let humanScore = 0
-    let computerScore = 0
-    let humanChoice
-    let computerChoice
-
-    function playRound(humanChoice, computerChoice) {
-        if ((humanChoice === "rock" && computerChoice === "scissors") ||
-            (humanChoice === "scissors") && computerChoice === "paper" ||
-            (humanChoice === "paper" && computerChoice === "rock")) {
-                humanScore++
-                console.log("You win this round!")
-        } else if ((computerChoice === "rock" && humanChoice === "scissors") ||
-            (computerChoice === "scissors") && humanChoice === "paper" ||
-            (computerChoice === "paper" && humanChoice === "rock")) {
-                computerScore++
-                console.log("You lose this round.")
-        } else {
-            console.log("It's a draw!")
-        }
-        console.log(`Score: you are ${humanScore} to ${computerScore}.`)
-    }
-
-    for (let i = 0; i < 5; i++) {
-        humanChoice = getHumanChoice()
-        computerChoice = getComputerChoice()
-
-        playRound(humanChoice, computerChoice)
-    }
-
-    if (humanScore > computerScore) {
-        console.log(`You win the best of 5. You scored ${humanScore} of 5.`)
-    } else if (computerScore > humanScore) {
-        console.log(`You lose the best of 5. You scored ${humanScore} of 5.`)
+function playRound(humanChoice, computerChoice) {
+    if ((humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "scissors") && computerChoice === "paper" ||
+        (humanChoice === "paper" && computerChoice === "rock")) {
+            humanScore++;
+            roundOutcomeText.innerText = "You win this round!";
+    } else if ((computerChoice === "rock" && humanChoice === "scissors") ||
+        (computerChoice === "scissors") && humanChoice === "paper" ||
+        (computerChoice === "paper" && humanChoice === "rock")) {
+            computerScore++;
+            roundOutcomeText.innerText = "You lose this round.";
     } else {
-        console.log(`It's a draw. Both sides scored ${humanScore}.`)
+        roundOutcomeText.innerText = "It's a draw!";
     }
+    currentScoreSummary.innerText = `Score: you are ${humanScore} to ${computerScore}.`;
 }
 
-playGame()
+let humanScore = 0;
+let computerScore = 0;
+
+const buttonsDiv = document.createElement("div");
+
+document.body.appendChild(buttonsDiv);
+
+const rockButton = document.createElement("button");
+const paperButton = document.createElement("button");
+const scissorsButton = document.createElement("button");
+
+rockButton.innerText = "rock";
+paperButton.innerText = "paper";
+scissorsButton.innerText = "scissors";
+
+buttonsDiv.appendChild(rockButton);
+buttonsDiv.appendChild(paperButton);
+buttonsDiv.appendChild(scissorsButton);
+
+const resultsDiv = document.createElement("div");
+
+document.body.appendChild(resultsDiv);
+
+const roundOutcomeText = document.createElement("p");
+const currentScoreSummary = document.createElement("p");
+
+resultsDiv.appendChild(roundOutcomeText);
+resultsDiv.appendChild(currentScoreSummary);
+
+rockButton.addEventListener("click", () => playRound("rock", getComputerChoice()));
+paperButton.addEventListener("click", () => playRound("paper", getComputerChoice()));
+scissorsButton.addEventListener('click', () => playRound("scissors", getComputerChoice()));
